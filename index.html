@@ -7,20 +7,28 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
-  :root {
-    --cream: #f5f0e8;
-    --warm-white: #faf7f2;
-    --gold: #b8975a;
-    --gold-light: #d4b47a;
-    --gold-dark: #8a6e3a;
-    --ink: #1a1612;
-    --ink-mid: #3d3530;
-    --ink-soft: #6b5e54;
-    --border: #d6c9b5;
-    --border-light: #e8dfd1;
-    --success: #4a7c59;
-    --shadow: rgba(26,22,18,0.08);
-  }
+:root {
+  --cream: #f4fff6;
+  --warm-white: #ffffff;
+
+  --gold: #df911a;
+  --gold-light: #f0b14e;
+  --gold-dark: #b87412;
+
+  --ink: #244117;
+  --ink-mid: #3d5f2a;
+  --ink-soft: #5d7550;
+
+  --border: #cfe3c2;
+  --border-light: #e6f2df;
+
+  --success: #669b32;
+
+  --shadow: rgba(36,65,23,0.08);
+
+  --green: #669b32;
+  --red: #a02626;
+}
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -33,7 +41,7 @@
 
   /* ── Header ── */
   header {
-    background: var(--ink);
+    background: linear-gradient(135deg, #244117 0%, #669b32 100%);
     color: var(--cream);
     padding: 2.5rem 3rem;
     display: flex;
@@ -80,7 +88,7 @@
   }
 
   .header-title span {
-    color: var(--gold);
+    color: var(--red);
     font-style: italic;
   }
 
@@ -512,7 +520,7 @@
 const precioInput = document.getElementById('precio-total');
 
 function fmt(n) {
-  return '₡ ' + n.toLocaleString('es-CR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  return 'CRC ' + n.toLocaleString('es-CR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 }
 
 precioInput.addEventListener('input', () => {
@@ -747,7 +755,7 @@ async function generarPDF() {
     doc.setTextColor(26, 22, 18);
     doc.setFontSize(9.5);
     doc.setFont('helvetica', 'bold');
-    const montoStr = '₡ ' + p.monto.toLocaleString('es-CR', { minimumFractionDigits: 2 });
+    const montoStr = 'CRC ' + p.monto.toLocaleString('es-CR', { minimumFractionDigits: 2 });
     doc.text(montoStr, x + colW/2 - 1, y + 21, { align: 'center' });
 
     doc.setTextColor(107, 94, 84);
@@ -770,10 +778,45 @@ async function generarPDF() {
   doc.setTextColor(212, 180, 122);
   doc.setFontSize(13);
   doc.setFont('helvetica', 'bold');
-  const totalStr = '₡ ' + datos.total.toLocaleString('es-CR', { minimumFractionDigits: 2 });
+  const totalStr = 'CRC ' + datos.total.toLocaleString('es-CR', { minimumFractionDigits: 2 });
   doc.text(totalStr, W - 18, y + 8, { align: 'right' });
 
   y += 22;
+
+// ── Información bancaria ──
+doc.setFillColor(36, 65, 23);
+doc.rect(14, y, W - 28, 7, 'F');
+
+doc.setTextColor(223, 145, 26);
+doc.setFontSize(7.5);
+doc.setFont('helvetica', 'bold');
+doc.text('INFORMACIÓN PARA DEPÓSITOS Y TRANSFERENCIAS', 18, y + 4.8);
+
+y += 12;
+
+// Caja informativa
+doc.setFillColor(244, 255, 246);
+doc.rect(14, y, W - 28, 28, 'F');
+
+doc.setDrawColor(207, 227, 194);
+doc.rect(14, y, W - 28, 28);
+
+doc.setTextColor(36, 65, 23);
+doc.setFontSize(9);
+doc.setFont('helvetica', 'bold');
+doc.text('Asociación Cámara de Comercio, Industria y Turismo de Sarchí', 18, y + 7);
+
+doc.setFont('helvetica', 'normal');
+doc.setFontSize(8.5);
+
+doc.text('Banco: Banco Nacional de Costa Rica', 18, y + 14);
+doc.text('Cuenta Corriente: 100-01-129-002221-6', 18, y + 20);
+
+doc.setTextColor(160, 38, 38);
+doc.setFont('helvetica', 'bold');
+doc.text('Enviar comprobante al WhatsApp: 8692-1357', 18, y + 26);
+
+y += 38;
 
   // ── Nota informativa ──
   doc.setDrawColor(184, 151, 90);
@@ -808,10 +851,10 @@ async function generarPDF() {
   doc.text('Cámara de Comercio, Industria y Turismo de Sarchí', 14, y + 5);
 
   // ── Footer ──
-  doc.setFillColor(26, 22, 18);
+  doc.setFillColor(36, 65, 23);
   doc.rect(0, H - 16, W, 16, 'F');
 
-  doc.setTextColor(184, 151, 90);
+  doc.setTextColor(223, 145, 26);
   doc.setFontSize(6.5);
   doc.setFont('helvetica', 'normal');
   doc.text('FERIA DEL MUEBLE 2026 · CACITUS · SARCHÍ, COSTA RICA', W / 2, H - 7.5, { align: 'center' });
