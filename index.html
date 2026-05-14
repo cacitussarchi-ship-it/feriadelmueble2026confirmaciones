@@ -632,17 +632,17 @@ async function generarPDF() {
   // ── Título en la banda ──
   const titleX = logoDataURL ? 50 : 14;
 
-  doc.setTextColor(184, 151, 90);
-  doc.setFontSize(7.5);
-  doc.setFont('helvetica', 'normal');
-  doc.text('CACITUS · CÁMARA DE COMERCIO, INDUSTRIA Y TURISMO DE SARCHÍ', titleX, 14);
+ doc.setTextColor(102, 155, 50);
+ doc.setFontSize(7.5);
+ doc.setFont('helvetica', 'bold');
+ doc.text('CACITUS · CÁMARA DE COMERCIO, INDUSTRIA Y TURISMO DE SARCHÍ'
 
-  doc.setTextColor(245, 240, 232);
+  doc.setTextColor(36, 65, 23);
   doc.setFontSize(26);
   doc.setFont('helvetica', 'bold');
   doc.text('FERIA DEL MUEBLE', titleX, 28);
 
-  doc.setTextColor(184, 151, 90);
+  doc.setTextColor(223, 145, 26);
   doc.setFontSize(14);
   doc.setFont('helvetica', 'normal');
   doc.text('2026', titleX, 37);
